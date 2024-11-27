@@ -69,8 +69,8 @@ export class OptionalValue<T> {
    * @example
    * ```ts
    * const optionalString: Optional<string> = OptionalValue.of("123" as string | undefined | null);
-   * const optionalNull: OptionalEmpty = OptionalValue.of(null);
-   * const optionalUndefined: OptionalEmpty = OptionalValue.of(undefined);
+   * const optionalNull: Optional.Empty = OptionalValue.of(null);
+   * const optionalUndefined: Optional.Empty = OptionalValue.of(undefined);
    * ```
    */
   static of<T>(value: T): Optional<NonNullable<T>> {
@@ -109,10 +109,10 @@ export class OptionalValue<T> {
    * @example
    * ```ts
    * if (optional.isPresent()) {
-   *   const copy: OptionalPresent<number> = optional;
+   *   const copy: Optional.Present<number> = optional;
    *   const value: number = optional.get();
    * } else {
-   *   const copy: OptionalEmpty = optional;
+   *   const copy: Optional.Empty = optional;
    *   const value: null = optional.get();
    * }
    * ```
@@ -150,10 +150,10 @@ export class OptionalValue<T> {
    * @example
    * ```ts
    * if (optional.isEmpty()) {
-   *   const copy: OptionalEmpty = optional;
+   *   const copy: Optional.Empty = optional;
    *   const value: null = optional.get();
    * } else {
-   *   const copy: OptionalPresent<number> = optional;
+   *   const copy: Optional.Present<number> = optional;
    *   const value: number = optional.get();
    * }
    * ```
@@ -405,8 +405,8 @@ interface OptionalFunction {
  * @example
  * ```ts
  * const optionalString: Optional<string> = Optional("123" as string | undefined | null);
- * const optionalNull: OptionalEmpty = Optional(null);
- * const optionalUndefined: OptionalEmpty = Optional(undefined);
+ * const optionalNull: Optional.Empty = Optional(null);
+ * const optionalUndefined: Optional.Empty = Optional(undefined);
  * ```
  */
 export const Optional = OptionalValue.of as OptionalFunction;

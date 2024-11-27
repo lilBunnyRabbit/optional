@@ -47,7 +47,7 @@ Initializes a new instance with the provided value, which can be `null` or `unde
 
 ###### Defined in
 
-[index.ts:31](https://github.com/lilBunnyRabbit/optional/blob/7e3bbb06d4530d8968d5e23812ee0ede3e9b67a5/src/index.ts#L31)
+[index.ts:31](https://github.com/lilBunnyRabbit/optional/blob/4899a3f175bd32a691acae49427964fc4113c9e7/src/index.ts#L31)
 
 #### Methods
 
@@ -92,7 +92,7 @@ const filtered: Optional<number> = optional.filter((value) => value > 3);
 
 ###### Defined in
 
-[index.ts:199](https://github.com/lilBunnyRabbit/optional/blob/7e3bbb06d4530d8968d5e23812ee0ede3e9b67a5/src/index.ts#L199)
+[index.ts:199](https://github.com/lilBunnyRabbit/optional/blob/4899a3f175bd32a691acae49427964fc4113c9e7/src/index.ts#L199)
 
 ##### flatMap()
 
@@ -136,7 +136,7 @@ const flatMapped: Optional<string> = optional.flatMap((value) => Optional(String
 
 ###### Defined in
 
-[index.ts:258](https://github.com/lilBunnyRabbit/optional/blob/7e3bbb06d4530d8968d5e23812ee0ede3e9b67a5/src/index.ts#L258)
+[index.ts:258](https://github.com/lilBunnyRabbit/optional/blob/4899a3f175bd32a691acae49427964fc4113c9e7/src/index.ts#L258)
 
 ##### get()
 
@@ -164,7 +164,7 @@ const value: number | null = optional.get();
 
 ###### Defined in
 
-[index.ts:97](https://github.com/lilBunnyRabbit/optional/blob/7e3bbb06d4530d8968d5e23812ee0ede3e9b67a5/src/index.ts#L97)
+[index.ts:97](https://github.com/lilBunnyRabbit/optional/blob/4899a3f175bd32a691acae49427964fc4113c9e7/src/index.ts#L97)
 
 ##### ifEmpty()
 
@@ -192,7 +192,7 @@ optional.ifEmpty(() => console.log("Empty"));
 
 ###### Defined in
 
-[index.ts:175](https://github.com/lilBunnyRabbit/optional/blob/7e3bbb06d4530d8968d5e23812ee0ede3e9b67a5/src/index.ts#L175)
+[index.ts:175](https://github.com/lilBunnyRabbit/optional/blob/4899a3f175bd32a691acae49427964fc4113c9e7/src/index.ts#L175)
 
 ##### ifPresent()
 
@@ -224,7 +224,7 @@ optional.ifPresent((value) => console.log("Present:", value));
 
 ###### Defined in
 
-[index.ts:137](https://github.com/lilBunnyRabbit/optional/blob/7e3bbb06d4530d8968d5e23812ee0ede3e9b67a5/src/index.ts#L137)
+[index.ts:137](https://github.com/lilBunnyRabbit/optional/blob/4899a3f175bd32a691acae49427964fc4113c9e7/src/index.ts#L137)
 
 ##### isEmpty()
 
@@ -244,17 +244,17 @@ Determines whether the instance does not contain a value.
 
 ```ts
 if (optional.isEmpty()) {
-  const copy: OptionalEmpty = optional;
+  const copy: Optional.Empty = optional;
   const value: null = optional.get();
 } else {
-  const copy: OptionalPresent<number> = optional;
+  const copy: Optional.Present<number> = optional;
   const value: number = optional.get();
 }
 ```
 
 ###### Defined in
 
-[index.ts:161](https://github.com/lilBunnyRabbit/optional/blob/7e3bbb06d4530d8968d5e23812ee0ede3e9b67a5/src/index.ts#L161)
+[index.ts:161](https://github.com/lilBunnyRabbit/optional/blob/4899a3f175bd32a691acae49427964fc4113c9e7/src/index.ts#L161)
 
 ##### isPresent()
 
@@ -278,17 +278,17 @@ Checks whether a value is contained within.
 
 ```ts
 if (optional.isPresent()) {
-  const copy: OptionalPresent<number> = optional;
+  const copy: Optional.Present<number> = optional;
   const value: number = optional.get();
 } else {
-  const copy: OptionalEmpty = optional;
+  const copy: Optional.Empty = optional;
   const value: null = optional.get();
 }
 ```
 
 ###### Defined in
 
-[index.ts:120](https://github.com/lilBunnyRabbit/optional/blob/7e3bbb06d4530d8968d5e23812ee0ede3e9b67a5/src/index.ts#L120)
+[index.ts:120](https://github.com/lilBunnyRabbit/optional/blob/4899a3f175bd32a691acae49427964fc4113c9e7/src/index.ts#L120)
 
 ##### map()
 
@@ -332,7 +332,7 @@ const mapped: Optional<string> = optional.map((value) => String(value));
 
 ###### Defined in
 
-[index.ts:228](https://github.com/lilBunnyRabbit/optional/blob/7e3bbb06d4530d8968d5e23812ee0ede3e9b67a5/src/index.ts#L228)
+[index.ts:228](https://github.com/lilBunnyRabbit/optional/blob/4899a3f175bd32a691acae49427964fc4113c9e7/src/index.ts#L228)
 
 ##### orElse()
 
@@ -373,7 +373,7 @@ const orElse: number = optional.orElse(123);
 
 ###### Defined in
 
-[index.ts:280](https://github.com/lilBunnyRabbit/optional/blob/7e3bbb06d4530d8968d5e23812ee0ede3e9b67a5/src/index.ts#L280)
+[index.ts:280](https://github.com/lilBunnyRabbit/optional/blob/4899a3f175bd32a691acae49427964fc4113c9e7/src/index.ts#L280)
 
 ##### orElseGet()
 
@@ -414,7 +414,7 @@ const orElseGet: number = optional.orElseGet(() => 123);
 
 ###### Defined in
 
-[index.ts:302](https://github.com/lilBunnyRabbit/optional/blob/7e3bbb06d4530d8968d5e23812ee0ede3e9b67a5/src/index.ts#L302)
+[index.ts:302](https://github.com/lilBunnyRabbit/optional/blob/4899a3f175bd32a691acae49427964fc4113c9e7/src/index.ts#L302)
 
 ##### orElseThrow()
 
@@ -458,7 +458,7 @@ try {
 
 ###### Defined in
 
-[index.ts:329](https://github.com/lilBunnyRabbit/optional/blob/7e3bbb06d4530d8968d5e23812ee0ede3e9b67a5/src/index.ts#L329)
+[index.ts:329](https://github.com/lilBunnyRabbit/optional/blob/4899a3f175bd32a691acae49427964fc4113c9e7/src/index.ts#L329)
 
 ##### empty()
 
@@ -476,7 +476,7 @@ An instance representing the absence of any value.
 
 ###### Defined in
 
-[index.ts:49](https://github.com/lilBunnyRabbit/optional/blob/7e3bbb06d4530d8968d5e23812ee0ede3e9b67a5/src/index.ts#L49)
+[index.ts:49](https://github.com/lilBunnyRabbit/optional/blob/4899a3f175bd32a691acae49427964fc4113c9e7/src/index.ts#L49)
 
 ##### isPresent()
 
@@ -506,7 +506,7 @@ Determines whether the provided value is neither `null` nor `undefined`.
 
 ###### Defined in
 
-[index.ts:40](https://github.com/lilBunnyRabbit/optional/blob/7e3bbb06d4530d8968d5e23812ee0ede3e9b67a5/src/index.ts#L40)
+[index.ts:40](https://github.com/lilBunnyRabbit/optional/blob/4899a3f175bd32a691acae49427964fc4113c9e7/src/index.ts#L40)
 
 ##### of()
 
@@ -548,13 +548,13 @@ const optional: Optional<number> = OptionalValue.of(123);
 
 ```ts
 const optionalString: Optional<string> = OptionalValue.of("123" as string | undefined | null);
-const optionalNull: OptionalEmpty = OptionalValue.of(null);
-const optionalUndefined: OptionalEmpty = OptionalValue.of(undefined);
+const optionalNull: Optional.Empty = OptionalValue.of(null);
+const optionalUndefined: Optional.Empty = OptionalValue.of(undefined);
 ```
 
 ###### Defined in
 
-[index.ts:76](https://github.com/lilBunnyRabbit/optional/blob/7e3bbb06d4530d8968d5e23812ee0ede3e9b67a5/src/index.ts#L76)
+[index.ts:76](https://github.com/lilBunnyRabbit/optional/blob/4899a3f175bd32a691acae49427964fc4113c9e7/src/index.ts#L76)
 
 ## Type Aliases
 
@@ -577,7 +577,7 @@ aiming to reduce the chances of null pointer exceptions.
 
 #### Defined in
 
-[index.ts:344](https://github.com/lilBunnyRabbit/optional/blob/7e3bbb06d4530d8968d5e23812ee0ede3e9b67a5/src/index.ts#L344)
+[index.ts:344](https://github.com/lilBunnyRabbit/optional/blob/4899a3f175bd32a691acae49427964fc4113c9e7/src/index.ts#L344)
 
 ## Functions
 
@@ -618,13 +618,13 @@ const optional: Optional<number> = Optional(123);
 
 ```ts
 const optionalString: Optional<string> = Optional("123" as string | undefined | null);
-const optionalNull: OptionalEmpty = Optional(null);
-const optionalUndefined: OptionalEmpty = Optional(undefined);
+const optionalNull: Optional.Empty = Optional(null);
+const optionalUndefined: Optional.Empty = Optional(undefined);
 ```
 
 #### Defined in
 
-[index.ts:344](https://github.com/lilBunnyRabbit/optional/blob/7e3bbb06d4530d8968d5e23812ee0ede3e9b67a5/src/index.ts#L344)
+[index.ts:344](https://github.com/lilBunnyRabbit/optional/blob/4899a3f175bd32a691acae49427964fc4113c9e7/src/index.ts#L344)
 
 ## Namespaces
 

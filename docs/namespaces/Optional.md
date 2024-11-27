@@ -20,7 +20,7 @@ This type is used to signify the absence of a value explicitly.
 
 #### Defined in
 
-[index.ts:349](https://github.com/lilBunnyRabbit/optional/blob/7e3bbb06d4530d8968d5e23812ee0ede3e9b67a5/src/index.ts#L349)
+[index.ts:349](https://github.com/lilBunnyRabbit/optional/blob/4899a3f175bd32a691acae49427964fc4113c9e7/src/index.ts#L349)
 
 ***
 
@@ -41,4 +41,4 @@ This type is used to handle cases where a value is definitely present.
 
 #### Defined in
 
-[index.ts:357](https://github.com/lilBunnyRabbit/optional/blob/7e3bbb06d4530d8968d5e23812ee0ede3e9b67a5/src/index.ts#L357)
+[index.ts:357](https://github.com/lilBunnyRabbit/optional/blob/4899a3f175bd32a691acae49427964fc4113c9e7/src/index.ts#L357)

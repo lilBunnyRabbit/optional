@@ -45,7 +45,7 @@ const nested: string = optional.filter((value: number) => value > 3)
 
 ## Documentation
 
-If you're looking for detailed API docs, check out the [full documentation](./docs/) generated via [Typedoc](https://typedoc.org/).
+If you're looking for detailed API docs, check out the [full documentation](./docs/globals.md) generated via [Typedoc](https://typedoc.org/).
 
 ## Development
 
