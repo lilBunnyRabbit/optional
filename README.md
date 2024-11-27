@@ -1,17 +1,51 @@
-# NPM Package Template
+# [TypeScript](https://www.typescriptlang.org/) implementation of [java.util.Optional<T>](https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html)
 
-[![npm version](https://img.shields.io/npm/v/@lilbunnyrabbit/<package-name>.svg)](https://www.npmjs.com/package/@lilbunnyrabbit/<package-name>)
-[![npm downloads](https://img.shields.io/npm/dt/@lilbunnyrabbit/<package-name>.svg)](https://www.npmjs.com/package/@lilbunnyrabbit/<package-name>)
+[![npm version](https://img.shields.io/npm/v/@lilbunnyrabbit/optional.svg)](https://www.npmjs.com/package/@lilbunnyrabbit/optional)
+[![npm downloads](https://img.shields.io/npm/dt/@lilbunnyrabbit/optional.svg)](https://www.npmjs.com/package/@lilbunnyrabbit/optional)
 
-This repository serves as a template for creating npm packages, simplifying the setup and development process for your npm packages. Replace all the `<package-name>` and `<repo-name>` with the name of the repository and/or package.
+> **Definition**
+> A container object which may or may not contain a non-null value. If a value is present, isPresent() will return true and get() will return the value.
+> Additional methods that depend on the presence or absence of a contained value are provided, such as orElse() (return a default value if value not present) and ifPresent() (execute a block of code if the value is present).
+>
+> This is a value-based class; use of identity-sensitive operations (including reference equality (==), identity hash code, or synchronization) on instances of Optional may have unpredictable results and should be avoided.
+
+The main difference is that it doesn't throw errors if the value is not defined and simply just returns `null`.
 
 ## Installation
 
 To use this package in your project, run:
 
 ```sh
-npm i @lilbunnyrabbit/<package-name>
+npm i @lilbunnyrabbit/optional
 ```
+
+## Simple Example
+
+```ts
+import { Optional } from "@lilbunnyrabbit/optional";
+
+const optional: Optional<number> = Optional(123);
+
+const value: number | null = optional.get();
+
+if (optional.isPresent()) {
+  const copy: Optional.Present<number> = optional;
+  const presentValue: number = optional.get();
+} else {
+  const copy: OptionalEmpty = optional;
+  const emptyValue: null = optional.get();
+}
+
+optional.ifPresent((value) => console.log("Present:", value));
+
+const nested: string = optional.filter((value: number) => value > 3)
+                               .map((value: number) => String(value))
+                               .orElse(456); // "123"
+```
+
+## Documentation
+
+If you're looking for detailed API docs, check out the [full documentation](./docs/) generated via [Typedoc](https://typedoc.org/).
 
 ## Development
 
@@ -22,8 +56,8 @@ This section provides a guide for developers to set up the project environment a
 Clone the repository and install dependencies:
 
 ```sh
-git clone https://github.com/lilBunnyRabbit/<repo-name>.git
-cd <repo-name>
+git clone https://github.com/lilBunnyRabbit/optional.git
+cd optional
 npm install
 ```
 
