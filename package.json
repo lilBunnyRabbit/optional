@@ -1,6 +1,6 @@
 {
   "name": "@lilbunnyrabbit/optional",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A TypeScript implementation of Java's Optional<T>, a container for nullable values with safe handling.",
   "keywords": [
     "typescript",
