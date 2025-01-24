@@ -177,22 +177,96 @@ describe("optional", () => {
     expect(emptyOrElseGet).toEqual(other);
   });
 
-  test("Optional.orElseThrow(errorSupplier)", () => {
-    const value = 123;
-    const error = new Error("Value not present");
-
-    const optional: Optional<number> = Optional(value);
-
-    const testOptional = () => optional.orElseThrow(() => error);
+  test("Optional.orElseThrow(messageOrErrorSupplier)", () => {
+    const optional: Optional<number> = Optional(123);
+    const testOptional = () => optional.orElseThrow();
 
     expect(testOptional).not.toThrow(Error);
-    expect(testOptional).not.toThrow(error.message);
+    expect(testOptional).not.toThrow("Value not present.");
 
     const emptyOptional = Optional.empty();
-
-    const testEmptyOptional = () => emptyOptional.orElseThrow(() => error);
+    const testEmptyOptional = () => emptyOptional.orElseThrow();
 
     expect(testEmptyOptional).toThrow(Error);
-    expect(testEmptyOptional).toThrow(error.message);
+    expect(testEmptyOptional).toThrow("Value not present.");
+
+    const emptyOptional2 = Optional.empty();
+    const testEmptyOptional2 = () => emptyOptional2.orElseThrow("No value.");
+
+    expect(testEmptyOptional2).toThrow(Error);
+    expect(testEmptyOptional2).toThrow("No value.");
+
+    const emptyOptional3 = Optional.empty();
+    const testEmptyOptional3 = () => emptyOptional3.orElseThrow(() => TypeError("Expected type."));
+
+    expect(testEmptyOptional3).toThrow(TypeError);
+    expect(testEmptyOptional3).toThrow("Expected type.");
+  });
+
+  test("Optional.equals(other)", () => {
+    const value = 123;
+
+    const optional1: Optional<number> = Optional(value);
+    const optional2: Optional<number> = Optional(value);
+
+    expect(optional1.equals(optional2)).toBe(true);
+    expect(optional2.equals(optional1)).toBe(true);
+
+    const optional3: Optional<number> = Optional(456);
+
+    expect(optional1.equals(optional3)).toBe(false);
+    expect(optional1.equals(optional3, (a, b) => typeof a === typeof b)).toBe(true);
+
+    const emptyOptional1 = Optional.empty();
+    const emptyOptional2 = Optional.empty();
+
+    expect(emptyOptional1.equals(emptyOptional2)).toBe(true);
+    expect(optional1.equals(emptyOptional1)).toBe(false);
+    expect((emptyOptional1 as Optional<unknown>).equals(optional1)).toBe(false);
+  });
+
+  test("Optional.contains(value)", () => {
+    const value = 123;
+
+    const optional: Optional<number> = Optional(value);
+    const emptyOptional = Optional.empty();
+
+    expect(optional.contains(value)).toBe(true);
+    expect(optional.contains(456)).toBe(false);
+
+    expect(emptyOptional.contains(null)).toBe(false);
+  });
+
+  test("Optional.toPromise(messageOrErrorSupplier)", async () => {
+    const value = 123;
+
+    const optional: Optional<number> = Optional(value);
+    const emptyOptional = Optional.empty();
+
+    const promise = optional.toPromise();
+    await expect(promise).resolves.toBe(value);
+
+    const emptyPromise = emptyOptional.toPromise();
+    await expect(emptyPromise).rejects.toThrow(Error);
+    await expect(emptyPromise).rejects.toThrow("Value not present.");
+
+    const emptyPromise2 = emptyOptional.toPromise("No value.");
+    await expect(emptyPromise2).rejects.toThrow(Error);
+    await expect(emptyPromise2).rejects.toThrow("No value.");
+
+    const emptyPromise3 = emptyOptional.toPromise(() => TypeError("Expected type."));
+    await expect(emptyPromise3).rejects.toThrow(TypeError);
+    await expect(emptyPromise3).rejects.toThrow("Expected type.");
+  });
+
+  test("Optional.toString()", () => {
+    const optional1: Optional<number> = Optional(123);
+    expect(optional1.toString()).toBe("Optional.Present<123>");
+
+    const optional2: Optional<string> = Optional("123");
+    expect(optional2.toString()).toBe('Optional.Present<"123">');
+
+    const emptyOptional = Optional.empty();
+    expect(emptyOptional.toString()).toBe("Optional.Empty");
   });
 });

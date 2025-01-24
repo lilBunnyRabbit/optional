@@ -45,6 +45,11 @@ export class OptionalValue<T> {
    * Creates an instance without any contained value.
    *
    * @returns An instance representing the absence of any value.
+   *
+   * @example
+   * ```ts
+   * const optional: Optional.Empty = Optional.empty();
+   * ```
    */
   static empty(): Optional.Empty {
     return new OptionalValue(null);
@@ -82,6 +87,29 @@ export class OptionalValue<T> {
   }
 
   /**
+   * Parses an error from the provided message or error supplier.
+   *
+   * This utility method helps convert a string message or a function that provides an error
+   * into an `Error` object. If no supplier or message is provided, it returns a default `Error`
+   * with the default message.
+   *
+   * @template E - The type of the `Error` to be returned.
+   * @param messageOrErrorSupplier - A string message or a function that supplies an `Error` instance.
+   * @returns An `Error` instance constructed from the provided message or supplier, or a default error.
+   */
+  private parseError<E extends Error>(messageOrErrorSupplier?: string | (() => E)) {
+    if (!messageOrErrorSupplier) {
+      return new Error("Value not present.");
+    }
+
+    if (typeof messageOrErrorSupplier === "string") {
+      return new Error(messageOrErrorSupplier);
+    }
+
+    return messageOrErrorSupplier();
+  }
+
+  /**
    * Retrieves the contained value.
    *
    * @see {@link https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html Java Reference: `public T get()`}
@@ -91,6 +119,7 @@ export class OptionalValue<T> {
    *
    * @example
    * ```ts
+   * const optional: Optional<number> = Optional(123);
    * const value: number | null = optional.get();
    * ```
    */
@@ -108,6 +137,7 @@ export class OptionalValue<T> {
    *
    * @example
    * ```ts
+   * const optional: Optional<number> = Optional(123);
    * if (optional.isPresent()) {
    *   const copy: Optional.Present<number> = optional;
    *   const value: number = optional.get();
@@ -131,6 +161,7 @@ export class OptionalValue<T> {
    *
    * @example
    * ```ts
+   * const optional: Optional<number> = Optional(123);
    * optional.ifPresent((value) => console.log("Present:", value));
    * ```
    */
@@ -149,6 +180,7 @@ export class OptionalValue<T> {
    *
    * @example
    * ```ts
+   * const optional: Optional<number> = Optional(123);
    * if (optional.isEmpty()) {
    *   const copy: Optional.Empty = optional;
    *   const value: null = optional.get();
@@ -169,6 +201,7 @@ export class OptionalValue<T> {
    *
    * @example
    * ```ts
+   * const optional: Optional<number> = Optional(123);
    * optional.ifEmpty(() => console.log("Empty"));
    * ```
    */
@@ -193,6 +226,7 @@ export class OptionalValue<T> {
    *
    * @example
    * ```ts
+   * const optional: Optional<number> = Optional(123);
    * const filtered: Optional<number> = optional.filter((value) => value > 3);
    * ```
    */
@@ -222,6 +256,7 @@ export class OptionalValue<T> {
    *
    * @example
    * ```ts
+   * const optional: Optional<number> = Optional(123);
    * const mapped: Optional<string> = optional.map((value) => String(value));
    * ```
    */
@@ -252,6 +287,7 @@ export class OptionalValue<T> {
    *
    * @example
    * ```ts
+   * const optional: Optional<number> = Optional(123);
    * const flatMapped: Optional<string> = optional.flatMap((value) => Optional(String(value)));
    * ```
    */
@@ -274,7 +310,8 @@ export class OptionalValue<T> {
    *
    * @example
    * ```ts
-   * const orElse: number = optional.orElse(123);
+   * const optional: Optional<number> = Optional(123);
+   * const orElse: number = optional.orElse(456);
    * ```
    */
   public orElse<U>(this: Optional<U>, other: NonNullable<U>): NonNullable<U> {
@@ -296,7 +333,8 @@ export class OptionalValue<T> {
    *
    * @example
    * ```ts
-   * const orElseGet: number = optional.orElseGet(() => 123);
+   * const optional: Optional<number> = Optional(123);
+   * const orElseGet: number = optional.orElseGet(() => 456);
    * ```
    */
   public orElseGet<U>(this: Optional<U>, other: () => NonNullable<U>): NonNullable<U> {
@@ -308,30 +346,141 @@ export class OptionalValue<T> {
   }
 
   /**
-   * Retrieves the contained value if present; otherwise, throws an error provided by a supplier function.
+   * Retrieves the contained value if present; otherwise, throws an error provided by a supplier or a message.
    *
    * @see {@link https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html Java Reference: `public <X extends Throwable> T orElseThrow(Supplier<? extends X> exceptionSupplier) throws X extends Throwable`}
    *
    * @template T - The type of the value contained within the instance.
    * @template E - type of the `Error` to be thrown.
-   * @param errorSupplier A supplier function that provides the error to be thrown.
+   * @param messageOrErrorSupplier - A string message or a supplier function that provides the error to be thrown.
    * @returns The contained value if present; otherwise, throws the supplied error.
+   * @throws An error if the value is not present.
    *
    * @example
    * ```ts
+   * const optional: Optional<number> = Optional(123);
    * try {
-   *   const value: number = optional.orElseThrow(() => new Error("Value not present"));
+   *   const value: number = optional.orElseThrow();
    * } catch (error) {
-   *   console.error(error);
+   *   console.error(error); // Error: Value not present.
    * }
    * ```
    */
-  public orElseThrow<E extends Error>(errorSupplier: () => E): NonNullable<T> {
+  public orElseThrow<E extends Error>(messageOrErrorSupplier?: string | (() => E)): NonNullable<T> {
     if (this.isPresent()) {
       return this.value;
     }
 
-    throw errorSupplier();
+    throw this.parseError(messageOrErrorSupplier);
+  }
+
+  /**
+   * Checks whether this instance is equal to another, optionally using a custom comparator.
+   *
+   * @template U - The type of the value contained within the current instance.
+   * @template V - The type of the value contained within the other instance.
+   * @param other - The other instance to compare.
+   * @param comparator - An optional function to compare the values.
+   * @returns `true` if both instances are equal; otherwise, `false`.
+   *
+   * @example
+   * ```ts
+   * const optional1: Optional<number> = Optional(123);
+   * const optioanl2: Optional<number> = Optional(123);
+   *
+   * if (optional1.equals(optioanl2)) {
+   *   const copy: Optional<number> = optional1;
+   *   const value: number | null = optional1.get();
+   * }
+   * ```
+   */
+  public equals<U, const V extends U>(
+    this: Optional<U>,
+    other: Optional<V>,
+    comparator?: (a: U, b: U) => boolean
+  ): this is Optional<V> {
+    if (this.isEmpty() && other.isEmpty()) {
+      return true;
+    }
+
+    if (this.isEmpty() || other.isEmpty()) {
+      return false;
+    }
+
+    if (comparator) {
+      return comparator(this.value, other.value);
+    }
+
+    return this.value === other.value;
+  }
+
+  /**
+   * Checks if the contained value matches the provided value.
+   *
+   * @template U - The type of the value contained within the current instance.
+   * @template V - The type of the value to check for equality.
+   * @param value - The value to compare against.
+   * @returns `true` if the contained value matches the provided value; otherwise, `false`.
+   *
+   * @example
+   * ```ts
+   * const optional: Optional<number> = Optional(123);
+   * if (optional.contains(123)) {
+   *   const copy: Optional.Present<123> = optional;
+   *   const value: 123 = optional.get();
+   * }
+   * ```
+   */
+  public contains<U, const V extends U>(this: Optional<U>, value: V): this is Optional.Present<V> {
+    return this.isPresent() && this.value === value;
+  }
+
+  /**
+   * Converts the instance to a `Promise`.
+   *
+   * @param messageOrErrorSupplier - A string message or a supplier function that provides the error if the value is empty.
+   * @returns A `Promise` that resolves with the contained value or rejects with the error.
+   *
+   * @example
+   * ```ts
+   * const optional: Optional<number> = Optional(123);
+   * const promise: Promise<number> = optional.toPromise();
+   * ```
+   */
+  public toPromise<E extends Error>(messageOrErrorSupplier?: string | (() => E)): Promise<NonNullable<T>> {
+    return this.isPresent() ? Promise.resolve(this.value) : Promise.reject(this.parseError(messageOrErrorSupplier));
+  }
+
+  /**
+   * Converts the instance to a string representation.
+   *
+   * @returns A string representing the contained value or empty.
+   *
+   * @example
+   * ```ts
+   * const optional1 = Optional(123);
+   * console.log(optional1.toString()); // "Optional.Present<123>"
+   *
+   * const optional2 = OptionalValue.empty();
+   * console.log(optional2.toString()); // "Optional.Empty"
+   * ```
+   */
+  public toString() {
+    if (this.isPresent()) {
+      const value = this.value;
+
+      if (typeof value === "object" || typeof value === "string") {
+        try {
+          return `Optional.Present<${JSON.stringify(value)}>`;
+        } catch {
+          return `Optional.Present<${value}>`;
+        }
+      }
+
+      return `Optional.Present<${value}>`;
+    }
+
+    return "Optional.Empty";
   }
 }
 

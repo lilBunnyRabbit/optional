@@ -1,23 +1,19 @@
 {
-  "entryPoints": ["src/"],
+  "entryPoints": ["./src/index.ts", "./README.md"],
   "excludeExternals": false,
   "excludePrivate": true,
-  "excludeReferences": true,
-  "entryPointStrategy": "expand",
+  "excludeReferences": false,
+  "entryPointStrategy": "resolve",
+  "visibilityFilters": {
+    "protected": false,
+    "private": false,
+    "inherited": true,
+    "external": true
+  },
+  "readme": "./README.md",
 
-  "githubPages": false,
+  "githubPages": true,
   "hideGenerator": true,
-  "plugin": ["typedoc-plugin-markdown"],
+
   "out": "./docs",
-  "outputFileStrategy": "modules",
-  "hidePageHeader": true,
-  "indexFormat": "table",
-  "parametersFormat": "table",
-  "interfacePropertiesFormat": "table",
-  "classPropertiesFormat": "table",
-  "enumMembersFormat": "table",
-  "propertyMembersFormat": "table",
-  "typeDeclarationFormat": "table",
-  "typeDeclarationVisibility": "compact",
-  "useCodeBlocks": true
 }
