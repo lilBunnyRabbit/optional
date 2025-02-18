@@ -1,5 +1,11 @@
 # @lilbunnyrabbit/optional
 
+## 1.0.1
+
+### Patch Changes
+
+- 2832edd: docs: GitHub Sponsor
+
 ## 1.0.0
 
 ### Major Changes
